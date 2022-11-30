@@ -11,6 +11,7 @@ import (
 
 type config struct {
 	prettyurl string
+	giturl string
 }
 
 func logger(h http.Handler) http.Handler {
@@ -27,7 +28,7 @@ func (c *config) goget(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "text/html")
 
 	pretty := path.Join(c.prettyurl, r.URL.Path)
-	content := path.Join(r.Host, r.URL.Path)
+	content := path.Join(c.giturl, r.URL.Path)
 	fmt.Fprintf(
 		w, `<head><meta name="go-import" content="%s git https://%s"></head>`,
 		pretty, content,
@@ -38,10 +39,11 @@ func (c *config) goget(w http.ResponseWriter, r *http.Request) {
 func main() {
 	cfg := config{}
 	flag.StringVar(&cfg.prettyurl, "pretty-url", "", "pretty url for your go module")
+	flag.StringVar(&cfg.giturl, "git-url", "", "actual git url of your go module")
 	flag.Parse()
 
-	if cfg.prettyurl == "" {
-		fmt.Println("goget: required flag --pretty-url")
+	if flag.NFlag() != 2 {
+		fmt.Println("goget: required options --pretty-url and --git-url")
 		os.Exit(1)
 	}
 

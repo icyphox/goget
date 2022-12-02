@@ -1,0 +1,23 @@
+goget
+-----
+
+go-import meta tag server. Serves the below meta tag if the URL query contains
+?go-get=1; else, redirects to the specified git URL (assumes https://).
+
+    <head><meta name="go-import" content="example.com git https://git.example.com"></head>
+
+
+USAGE
+
+    Usage of ./goget:
+      -addr string
+            listen address (default "0.0.0.0:6868")
+      -git-url string
+            actual git url of your go module
+      -pretty-url string
+            pretty url for your go module
+
+
+NOTES
+
+Run behind a TLS terminating reverse proxy like relayd(8) or nginx.

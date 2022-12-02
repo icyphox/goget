@@ -1,8 +1,8 @@
 goget
 -----
 
-go-import meta tag server. Serves the below meta tag if the URL query contains
-?go-get=1; else, redirects to the specified git URL (assumes https://).
+go-import meta tag server. Serves the below meta tag if the URL query
+contains go-get=1.
 
     <head><meta name="go-import" content="example.com git https://git.example.com"></head>
 

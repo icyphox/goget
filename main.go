@@ -11,8 +11,8 @@ import (
 
 type config struct {
 	prettyurl string
-	giturl string
-	addr string
+	giturl    string
+	addr      string
 }
 
 func logger(h http.Handler) http.Handler {
@@ -29,16 +29,12 @@ func logger(h http.Handler) http.Handler {
 func (c *config) goget(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "text/html")
 
-	if r.URL.Query().Get("go-get") == "1" {
-		pretty := path.Join(c.prettyurl, r.URL.Path)
-		content := path.Join(c.giturl, r.URL.Path)
-		fmt.Fprintf(
-			w, `<head><meta name="go-import" content="%s git https://%s"></head>`,
-			pretty, content,
-		)
-	} else {
-		http.Redirect(w, r, "https://"+c.giturl, http.StatusTemporaryRedirect)
-	}
+	pretty := path.Join(c.prettyurl, r.URL.Path)
+	content := path.Join(c.giturl, r.URL.Path)
+	fmt.Fprintf(
+		w, `<head><meta name="go-import" content="%s git https://%s"></head>`,
+		pretty, content,
+	)
 	return
 }
 
